@@ -1,0 +1,32 @@
+---
+title: "How to Use IRSN-23"
+author: "Yoshiaki Sota"
+date: "2023-03-31"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r Loading.IRSN23}
+library("supclust")
+load("IRSN-23.Annals.of.Oncology.model.Robj")
+load("OUH.Robj")
+```
+
+```{r }
+# Training (SOTA, Y., et al. Annals of oncology, 2014, 25.1: 100-106.)
+table(IRSN.23.model$predict(OUH.data$Training), OUH.data$Training.pCR.result)
+# Validation (SOTA, Y., et al. Annals of oncology, 2014, 25.1: 100-106.)
+table(IRSN.23.model$predict(OUH.data$Validation), OUH.data$Validation.pCR.result)
+
+# prospective Validation
+table(IRSN.23.model$predict(OUH.data$Prospective.Validation.randum.primer[OUH.data$Prospective.Validation.randum.primer.anti.HER2=="without anti-HER2 therapy"]), 
+      OUH.data$Prospective.Validation.randum.primer.pCR.result[OUH.data$Prospective.Validation.randum.primer.anti.HER2=="without anti-HER2 therapy"])+ table(IRSN.23.model$predict(OUH.data$Prospective.Validation.dT.primer[OUH.data$Prospective.Validation.dT.primer.anti.HER2=="without anti-HER2 therapy"]), 
+      OUH.data$Prospective.Validation.dT.primer.pCR.result[OUH.data$Prospective.Validation.dT.primer.anti.HER2=="without anti-HER2 therapy"])
+```
+
+
